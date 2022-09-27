@@ -3,7 +3,9 @@ use std::{error::Error, io};
 use awake_rs::{AwakeOptions, Awake};
 
 fn main() -> Result<(), Box<dyn Error>> {
+    // TODO CLI
     let _awake = Awake::new(&AwakeOptions{
+        // display: true,
         idle: true,
         ..Default::default()
     })?;
