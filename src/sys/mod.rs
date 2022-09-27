@@ -1,9 +1,16 @@
-// TODO Use cfg_if
+use cfg_if::cfg_if;
 
-#[cfg(windows)]
-mod windows;
-#[cfg(windows)]
-pub use self::windows::*;
-
-#[cfg(not(windows))]
-compile_error!("Unsupported cfg");
+cfg_if! {
+    if #[cfg(windows)] {
+        mod windows;
+        pub use self::windows::*;
+    } else if #[cfg(linux)] {
+        mod linux;
+        pub use self::linux::*;
+    } else if #[cfg(target_os = "macos")] {
+        mod macos;
+        pub use self::macos::*;
+    } else {
+        compile_error!("Unsupported cfg");
+    }
+}
