@@ -13,6 +13,7 @@ use crate::AwakeOptions;
 
 pub struct Awake {
     options: AwakeOptions,
+
     session_conn: Option<Connection>,
     cookie: Option<u32>,
 
