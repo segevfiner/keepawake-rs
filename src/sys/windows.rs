@@ -1,6 +1,6 @@
 //! Using [`SetThreadExecutionState`], can alternatively use [`PowerSetRequest`].
 //!
-//! Away mode seems to be unsupported with modern standby.
+//! Away mode to prevent explicit sleep seems to be unsupported with modern standby.
 //!
 //! [`SetThreadExecutionState`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate
 //! [`PowerSetRequest`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powersetrequest
