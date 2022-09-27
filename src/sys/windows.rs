@@ -2,6 +2,8 @@
 //!
 //! Using away mode to prevent explicit sleep seems to be unsupported with modern standby.
 //!
+//! Debug with `powercfg /requests`.
+//!
 //! [`SetThreadExecutionState`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate
 //! [`PowerSetRequest`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powersetrequest
 

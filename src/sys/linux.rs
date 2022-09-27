@@ -2,6 +2,8 @@
 //!
 //! For VT, should we add support for using `setterm -blank`? is there something better?
 //!
+//! Debug with `systemd-inhibit --list`, `gnome-session-inhibit --list`.
+//!
 //! [ScreenSaver]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
 //! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
@@ -40,7 +42,7 @@ impl Awake {
             let result: (u32,) = self.screensaver_proxy().method_call(
                 "org.freedesktop.ScreenSaver",
                 "Inhibit",
-                ("io.github.segevfiner.awake-rs", "User Requested"),
+                ("io.github.segevfiner.keepawake-rs", "User requested"),
             )?;
             Some(result.0)
         } else {
@@ -52,7 +54,7 @@ impl Awake {
             let result: (dbus::arg::OwnedFd,) = self.login_proxy().method_call(
                 "org.freedesktop.login1.Manager",
                 "Inhibit",
-                ("idle", "awake-rs", "User Requested", "block"),
+                ("idle", "keepawake-rs", "User requested", "block"),
             )?;
             Some(result.0)
         } else {
