@@ -1,0 +1,12 @@
+services:
+  ubuntu:
+    build: .
+    command: /sbin/init
+    tty: true
+    tmpfs:
+      - /run
+      - /run/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ../..:/workspace
+    stop_signal: SIGINT

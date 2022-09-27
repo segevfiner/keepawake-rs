@@ -16,3 +16,6 @@ version = "0.42.0"
 features = [
     "Win32_System_Power"
 ]
+
+[target.'cfg(target_os = "linux")'.dependencies]
+dbus = "0.9.6"
