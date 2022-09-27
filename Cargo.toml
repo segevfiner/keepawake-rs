@@ -8,6 +8,10 @@ description = "Keep your computer awake"
 license = "MIT"
 repository = "https://github.com/segevfiner/awake-rs/"
 
+[[bin]]
+name = "awake"
+path = "src/main.rs"
+
 [dependencies]
 cfg-if = "1.0.0"
 
