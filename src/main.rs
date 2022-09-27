@@ -1,6 +1,6 @@
 use std::{error::Error, io};
 
-use awake_rs::{AwakeOptions, Awake};
+use keepawake::{AwakeOptions, Awake};
 
 fn main() -> Result<(), Box<dyn Error>> {
     // TODO CLI
