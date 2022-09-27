@@ -91,7 +91,5 @@ impl Drop for Awake {
                 )
                 .unwrap();
         }
-
-        if self.options.idle {}
     }
 }
