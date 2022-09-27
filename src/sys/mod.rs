@@ -1,3 +1,5 @@
+// TODO Use cfg_if
+
 #[cfg(windows)]
 mod windows;
 #[cfg(windows)]
