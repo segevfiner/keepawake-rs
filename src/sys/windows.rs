@@ -22,12 +22,12 @@ pub struct Awake {
 
 impl Awake {
     pub fn new(options: &AwakeOptions) -> Result<Self, Box<dyn Error>> {
-        let mut this = Awake {
+        let mut awake = Awake {
             options: *options,
             previous: Default::default(),
         };
-        this.set()?;
-        Ok(this)
+        awake.set()?;
+        Ok(awake)
     }
 
     fn set(&mut self) -> Result<(), WindowsError> {
