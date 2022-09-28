@@ -20,7 +20,8 @@ pub struct Awake {
     cookie: Option<u32>,
 
     system_conn: Option<Connection>,
-    fd: Option<dbus::arg::OwnedFd>,
+    idle_fd: Option<dbus::arg::OwnedFd>,
+    sleep_fd: Option<dbus::arg::OwnedFd>,
 }
 
 impl Awake {
@@ -30,7 +31,8 @@ impl Awake {
             cookie: None,
             session_conn: None,
             system_conn: None,
-            fd: None,
+            idle_fd: None,
+            sleep_fd: None,
         };
         awake.set()?;
         Ok(awake)
@@ -49,12 +51,24 @@ impl Awake {
             None
         };
 
-        self.fd = if self.options.idle {
+        self.idle_fd = if self.options.idle {
             self.system_conn = Some(Connection::new_system()?);
             let result: (dbus::arg::OwnedFd,) = self.login_proxy().method_call(
                 "org.freedesktop.login1.Manager",
                 "Inhibit",
                 ("idle", "keepawake-rs", "User requested", "block"),
+            )?;
+            Some(result.0)
+        } else {
+            None
+        };
+
+        self.sleep_fd = if self.options.sleep {
+            self.system_conn = Some(Connection::new_system()?);
+            let result: (dbus::arg::OwnedFd,) = self.login_proxy().method_call(
+                "org.freedesktop.login1.Manager",
+                "Inhibit",
+                ("sleep", "keepawake-rs", "User requested", "block"),
             )?;
             Some(result.0)
         } else {

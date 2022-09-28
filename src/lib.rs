@@ -7,6 +7,7 @@ mod sys;
 pub struct AwakeOptions {
     pub display: bool,
     pub idle: bool,
+    pub sleep: bool,
 }
 
 pub struct Awake {

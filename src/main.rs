@@ -5,7 +5,7 @@ use keepawake::{AwakeOptions, Awake};
 fn main() -> Result<(), Box<dyn Error>> {
     // TODO CLI
     let _awake = Awake::new(&AwakeOptions{
-        // display: true,
+        display: true,
         idle: true,
         ..Default::default()
     })?;

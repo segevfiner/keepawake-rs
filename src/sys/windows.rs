@@ -12,7 +12,7 @@ use std::error::Error;
 use windows::core::Error as WindowsError;
 use windows::Win32::System::Power::{
     SetThreadExecutionState, ES_CONTINUOUS, ES_DISPLAY_REQUIRED, ES_SYSTEM_REQUIRED,
-    EXECUTION_STATE,
+    EXECUTION_STATE, ES_AWAYMODE_REQUIRED,
 };
 
 use crate::AwakeOptions;
@@ -41,6 +41,10 @@ impl Awake {
 
         if self.options.idle {
             esflags |= ES_SYSTEM_REQUIRED;
+        }
+
+        if self.options.sleep {
+            esflags |= ES_AWAYMODE_REQUIRED;
         }
 
         unsafe {
