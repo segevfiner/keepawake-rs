@@ -1,4 +1,4 @@
-use std::error::Error;
+use anyhow::Result;
 
 mod sys;
 
@@ -16,8 +16,7 @@ pub struct Awake {
 }
 
 impl Awake {
-    // TODO Better error type, the anyhow crate?
-    pub fn new(options: &AwakeOptions) -> Result<Self, Box<dyn Error>> {
+    pub fn new(options: &AwakeOptions) -> Result<Self> {
         Ok(Awake {
             _imp: sys::Awake::new(options)?,
             _options: *options,

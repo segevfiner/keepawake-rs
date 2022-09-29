@@ -1,9 +1,10 @@
-use std::{error::Error, sync::mpsc::channel, io};
+use std::{io, sync::mpsc::channel};
 
-use clap_complete::{Shell, generate};
+use anyhow::Result;
+use clap_complete::{generate, Shell};
 use keepawake::{Awake, AwakeOptions};
 
-use clap::{Parser, CommandFactory};
+use clap::{CommandFactory, Parser};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -25,7 +26,7 @@ struct Cli {
     completions: Option<Shell>,
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
     if let Some(shell) = cli.completions {

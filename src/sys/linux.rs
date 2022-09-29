@@ -7,7 +7,7 @@
 //! [ScreenSaver]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
 //! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
-use std::error::Error;
+use anyhow::Result;
 
 use zbus::{blocking::Connection, dbus_proxy};
 
@@ -52,7 +52,7 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: &AwakeOptions) -> Result<Self, Box<dyn Error>> {
+    pub fn new(options: &AwakeOptions) -> Result<Self> {
         let mut awake = Awake {
             options: *options,
 
