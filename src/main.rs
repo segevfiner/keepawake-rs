@@ -1,8 +1,9 @@
-use std::{error::Error, sync::mpsc::channel};
+use std::{error::Error, sync::mpsc::channel, io};
 
+use clap_complete::{Shell, generate};
 use keepawake::{Awake, AwakeOptions};
 
-use clap::Parser;
+use clap::{Parser, CommandFactory};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -18,10 +19,19 @@ struct Cli {
     /// Keep system from sleeping (Functionality and conditions for this to work vary by OS)
     #[arg(short, long)]
     sleep: bool,
+
+    #[arg(long, value_enum, value_name("SHELL"))]
+    /// Generate shell completions
+    completions: Option<Shell>,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
     let cli = Cli::parse();
+
+    if let Some(shell) = cli.completions {
+        generate(shell, &mut Cli::command(), "keepawake", &mut io::stdout());
+        return Ok(());
+    }
 
     let (tx, rx) = channel();
 
