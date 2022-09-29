@@ -20,8 +20,8 @@ struct Cli {
     #[arg(short, long)]
     sleep: bool,
 
-    #[arg(long, value_enum, value_name("SHELL"))]
     /// Generate shell completions
+    #[arg(long, value_enum, value_name("SHELL"))]
     completions: Option<Shell>,
 }
 
