@@ -1,4 +1,6 @@
 # keepawake-rs
+![Crates.io](https://img.shields.io/crates/v/keepawake)
+
 Keep your computer awake. Like [`caffeinate`], [`systemd-inhibit`]/[`gnome-session-inhibit`], or [PowerToys Awake], but cross-platform and written in [Rust].
 
 [`caffeinate`]: https://ss64.com/osx/caffeinate.html
