@@ -1,4 +1,8 @@
-use std::{io, sync::mpsc::channel};
+use std::{
+    io,
+    process::{self, Command},
+    sync::mpsc::channel,
+};
 
 use anyhow::Result;
 use clap::{CommandFactory, Parser};
@@ -24,6 +28,10 @@ struct Cli {
     /// Generate shell completions
     #[arg(long, value_enum, value_name("SHELL"))]
     completions: Option<Shell>,
+
+    /// Run the command and wait for it to exit, keeping the computer awake while it runs.
+    #[arg()]
+    command: Vec<String>,
 }
 
 fn main() -> Result<()> {
@@ -39,13 +47,26 @@ fn main() -> Result<()> {
     ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
         .expect("Error setting Ctrl-C handler");
 
-    let _awake = Awake::new(&AwakeOptions {
-        display: cli.display,
-        idle: cli.idle,
-        sleep: cli.sleep,
-    })?;
+    let exit_code = {
+        let _awake = Awake::new(&AwakeOptions {
+            display: cli.display,
+            idle: cli.idle,
+            sleep: cli.sleep,
+        })?;
 
-    rx.recv().expect("Could not receive from channel.");
+        if cli.command.len() > 0 {
+            // TODO Improve exit code in signal
+            Command::new(&cli.command[0])
+                .args(&cli.command[1..])
+                .spawn()?
+                .wait()?
+                .code()
+                .unwrap_or(128)
+        } else {
+            rx.recv().expect("Could not receive from channel.");
+            130
+        }
+    };
 
-    Ok(())
+    process::exit(exit_code);
 }
