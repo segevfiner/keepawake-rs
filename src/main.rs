@@ -1,13 +1,15 @@
 use std::{
     io,
     process::{self, Command},
-    sync::mpsc::channel, thread, time::Duration,
+    sync::mpsc::channel,
+    thread,
+    time::Duration,
 };
 
 use anyhow::Result;
 use clap::{CommandFactory, Parser};
 use clap_complete::{generate, Shell};
-use sysinfo::{System, SystemExt, Pid, PidExt, ProcessRefreshKind};
+use sysinfo::{Pid, PidExt, ProcessRefreshKind, System, SystemExt};
 
 use keepawake::{Awake, AwakeOptions};
 
