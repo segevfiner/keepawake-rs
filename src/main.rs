@@ -63,7 +63,7 @@ fn main() -> Result<()> {
         })?;
 
         if cli.command.len() > 0 {
-            // TODO Improve exit code in signal
+            // TODO Improve exit code in signal exit cases
             Command::new(&cli.command[0])
                 .args(&cli.command[1..])
                 .spawn()?
