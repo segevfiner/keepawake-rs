@@ -1,10 +1,10 @@
 use std::{io, sync::mpsc::channel};
 
 use anyhow::Result;
-use clap_complete::{generate, Shell};
-use keepawake::{Awake, AwakeOptions};
-
 use clap::{CommandFactory, Parser};
+use clap_complete::{generate, Shell};
+
+use keepawake::{Awake, AwakeOptions};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]

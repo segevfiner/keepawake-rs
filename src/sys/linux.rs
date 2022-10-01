@@ -8,7 +8,6 @@
 //! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
 use anyhow::Result;
-
 use zbus::{blocking::Connection, dbus_proxy};
 
 use crate::AwakeOptions;
