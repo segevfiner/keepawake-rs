@@ -13,7 +13,7 @@ Keep your computer awake. Like [`caffeinate`], [`systemd-inhibit`]/[`gnome-sessi
 ```
 Keep your computer awake
 
-Usage: keepawake.exe [OPTIONS] [COMMAND]...
+Usage: keepawake [OPTIONS] [COMMAND]...
 
 Arguments:
   [COMMAND]...  Run the command and wait for it to exit, keeping the computer awake while it runs
