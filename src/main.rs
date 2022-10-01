@@ -1,12 +1,13 @@
 use std::{
     io,
     process::{self, Command},
-    sync::mpsc::channel,
+    sync::mpsc::channel, thread, time::Duration,
 };
 
 use anyhow::Result;
 use clap::{CommandFactory, Parser};
 use clap_complete::{generate, Shell};
+use sysinfo::{System, SystemExt, Pid, PidExt, ProcessRefreshKind};
 
 use keepawake::{Awake, AwakeOptions};
 
@@ -26,8 +27,13 @@ struct Cli {
     sleep: bool,
 
     /// Generate shell completions
-    #[arg(long, value_enum, value_name("SHELL"))]
+    #[arg(long, value_enum, value_name = "SHELL")]
     completions: Option<Shell>,
+
+    /// Wait for the process with the specified pid to exit.
+    /// This option is ignored when used with the COMMAND argument.
+    #[arg(short, value_name = "PID")]
+    wait: Option<u32>,
 
     /// Run the command and wait for it to exit, keeping the computer awake while it runs.
     #[arg()]
@@ -62,6 +68,16 @@ fn main() -> Result<()> {
                 .wait()?
                 .code()
                 .unwrap_or(128)
+        } else if let Some(pid) = cli.wait {
+            let pid = Pid::from_u32(pid);
+            let mut system = System::new();
+
+            loop {
+                if !system.refresh_process_specifics(pid, ProcessRefreshKind::new()) {
+                    break 0;
+                }
+                thread::sleep(Duration::from_millis(200));
+            }
         } else {
             rx.recv().expect("Could not receive from channel.");
             130

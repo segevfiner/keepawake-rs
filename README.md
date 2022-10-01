@@ -21,6 +21,7 @@ Options:
   -i, --idle                 Keep system from idle sleeping
   -s, --sleep                Keep system from sleeping (Functionality and conditions for this to work vary by OS)
       --completions <SHELL>  Generate shell completions [possible values: bash, elvish, fish, powershell, zsh]
+  -w <PID>                   Wait for the process with the specified pid to exit. This option is ignored when used with the COMMAND argument
   -h, --help                 Print help information
   -V, --version              Print version information
 ```
