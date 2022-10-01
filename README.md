@@ -1,5 +1,5 @@
 # keepawake-rs
-![Crates.io](https://img.shields.io/crates/v/keepawake)
+[![Crates.io](https://img.shields.io/crates/v/keepawake)](https://crates.io/crates/keepawake)
 
 Keep your computer awake. Like [`caffeinate`], [`systemd-inhibit`]/[`gnome-session-inhibit`], or [PowerToys Awake], but cross-platform and written in [Rust].
 
