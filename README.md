@@ -36,6 +36,10 @@ cargo install keepawake
 ### Binaries
 Will be made available later.
 
+## Completions
+Use: `keepawake --completions <SHELL>` to generate a completion script, you will have to install it
+as appropriate for the specific shell you are using.
+
 ## Notes
 Preventing the computer from explicitly sleeping, and/or by closing the lid, is often restricted in various ways by the OS, e.g. Only on AC power, not in any PC running Windows with [Modern Standby](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby).
 

@@ -32,7 +32,7 @@ struct Cli {
     #[arg(long, value_enum, value_name = "SHELL")]
     completions: Option<Shell>,
 
-    /// Wait for the process with the specified pid to exit.
+    /// Wait for the process with the specified PID to exit.
     /// This option is ignored when used with the COMMAND argument.
     #[arg(short, value_name = "PID")]
     wait: Option<u32>,
