@@ -14,7 +14,7 @@ use sysinfo::{Pid, PidExt, ProcessRefreshKind, System, SystemExt};
 use keepawake::{Awake, AwakeOptions};
 
 #[derive(Parser)]
-#[command(author, version, about, long_about = None)]
+#[command(author, version, about, long_about = None, arg_required_else_help = true)]
 struct Cli {
     /// Keep display on
     #[arg(short, long)]
