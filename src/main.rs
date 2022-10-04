@@ -62,7 +62,7 @@ fn main() -> Result<()> {
             sleep: cli.sleep,
         })?;
 
-        if cli.command.len() > 0 {
+        if !cli.command.is_empty() {
             // TODO Improve exit code in signal exit cases
             Command::new(&cli.command[0])
                 .args(&cli.command[1..])
