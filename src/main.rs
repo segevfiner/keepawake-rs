@@ -7,7 +7,7 @@ use std::{
 };
 
 use anyhow::Result;
-use clap::{CommandFactory, Parser};
+use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::{generate, Shell};
 use sysinfo::{Pid, PidExt, ProcessRefreshKind, System, SystemExt};
 
@@ -29,7 +29,7 @@ struct Cli {
     sleep: bool,
 
     /// Generate shell completions
-    #[arg(long, value_enum, value_name = "SHELL")]
+    #[arg(long, exclusive = true, value_enum, value_name = "SHELL")]
     completions: Option<Shell>,
 
     /// Wait for the process with the specified PID to exit.
@@ -38,7 +38,7 @@ struct Cli {
     wait: Option<u32>,
 
     /// Run the command and wait for it to exit, keeping the computer awake while it runs.
-    #[arg()]
+    #[arg(trailing_var_arg = true, value_hint = ValueHint::CommandWithArguments)]
     command: Vec<String>,
 }
 

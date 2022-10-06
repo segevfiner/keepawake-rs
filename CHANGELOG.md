@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Changed
-- Added `arg_required_else_help = true` to the parser.
+- Improve CLI parsing in edge cases, and completions.
 
 ## 1.0.0 - 2022-10-02
 Initial Release
