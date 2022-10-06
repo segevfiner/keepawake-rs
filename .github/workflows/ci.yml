@@ -19,9 +19,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Lint
-      run: cargo clippy --verbose
-    - name: Build
-      run: cargo build --verbose
+    - uses: actions-rust-lang/setup-rust-toolchain@v1
+    - name: Check formatting
+      run: cargo fmt --check
+      continue-on-error: true
+    - name: Check
+      run: cargo clippy --locked --verbose
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --locked --verbose
