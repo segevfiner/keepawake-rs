@@ -29,6 +29,10 @@ jobs:
       - name: Install cross
         run: cargo install cross
 
+      - name: Install target
+        run: rustup target add ${{ matrix.target }}
+        if: matrix.target == 'aarch64-apple-darwin'
+
       - name: Build
         run: cross build --verbose --release --target ${{ matrix.target }}
 
