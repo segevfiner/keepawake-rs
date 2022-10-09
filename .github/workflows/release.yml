@@ -9,7 +9,21 @@ on:
     branches: [ "main" ]
 
 jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-22.04
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          draft: true
+
   release:
+    name: Release
+    needs: create-release
     strategy:
       matrix:
         include:
