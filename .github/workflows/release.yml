@@ -2,8 +2,9 @@ name: Release
 
 on:
   workflow_dispatch: {}
-  pull_request:
-    branches: [ "main" ]
+  push:
+    tags:
+      - v[0-9].*
 
 jobs:
   release:
@@ -36,9 +37,25 @@ jobs:
       - name: Build
         run: cross build --verbose --release --target ${{ matrix.target }}
 
+      - name: Package
+        shell: bash
+        run: |
+          shopt -s extglob
+          staging="keepawake-${{ github.ref_name }}-${{ matrix.target }}"
+          mkdir $staging
+
+          cp target/${{ matrix.target }}/release/keepawake@(|.exe) $staging/
+          cp README.md CHANGELOG.md LICENSE $staging/
+
+          tar zcf $staging $staging.tar.gz
+          echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+
       - uses: actions/upload-artifact@v3
         with:
-          name: keepawake-${{ matrix.target }}
-          path: |
-            target/${{ matrix.target }}/release/keepawake
-            target/${{ matrix.target }}/release/keepawake.exe
+          path: ${{ env.ASSET }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ env.ASSET }}
