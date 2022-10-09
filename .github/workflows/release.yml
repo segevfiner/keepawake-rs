@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           shopt -s extglob
-          staging="keepawake-${{ github.ref_name }}-${{ matrix.target }}"
+          staging="keepawake-${{ github.head_ref || github.ref_name }}-${{ matrix.target }}"
           mkdir $staging
 
           cp target/${{ matrix.target }}/release/keepawake@(|.exe) $staging/
