@@ -12,7 +12,6 @@ jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-22.04
-    if: startsWith(github.ref, 'refs/tags/')
 
     steps:
       - name: Create Release
