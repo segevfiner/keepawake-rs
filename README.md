@@ -37,7 +37,7 @@ cargo install keepawake
 ```
 
 ### Binaries
-Will be made available later.
+Download from https://github.com/segevfiner/keepawake-rs/releases/latest.
 
 ## Completions
 Use: `keepawake --completions <SHELL>` to generate a completion script, you will have to install it
