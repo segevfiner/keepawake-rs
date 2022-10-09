@@ -49,7 +49,7 @@ jobs:
           cp target/${{ matrix.target }}/release/keepawake@(|.exe) $staging/
           cp README.md CHANGELOG.md LICENSE $staging/
 
-          tar zcf $staging $staging.tar.gz
+          tar zcf $staging.tar.gz $staging
           echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
 
       - uses: actions/upload-artifact@v3
