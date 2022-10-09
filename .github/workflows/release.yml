@@ -10,7 +10,7 @@ on:
 
 jobs:
   create-release:
-    name: Create Release
+    name: Create release
     runs-on: ubuntu-22.04
 
     steps:
