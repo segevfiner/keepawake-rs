@@ -54,6 +54,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
+          name: release
           path: ${{ env.ASSET }}
 
       - name: Release
