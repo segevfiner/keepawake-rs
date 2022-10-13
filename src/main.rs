@@ -9,12 +9,16 @@ use std::{
 use anyhow::Result;
 use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::{generate, Shell};
+use shadow_rs::shadow;
 use sysinfo::{Pid, PidExt, ProcessRefreshKind, System, SystemExt};
 
 use keepawake::{Awake, AwakeOptions};
 
+shadow!(build);
+
 #[derive(Parser)]
-#[command(author, version, about, long_about = None, arg_required_else_help = true)]
+#[command(author, version, long_version = build::CLAP_LONG_VERSION, about, long_about = None,
+    arg_required_else_help = true)]
 struct Cli {
     /// Keep display on
     #[arg(short, long)]
