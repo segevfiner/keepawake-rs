@@ -21,7 +21,7 @@ cfg-if = "1.0.0"
 clap = { version = "4.0.2", features = ["derive"] }
 clap_complete = "4.0.2"
 ctrlc = { version = "3.2.3", features = ["termination"] }
-shadow-rs = "0.16.3"
+shadow-rs = "0.17.0"
 sysinfo = "0.26.4"
 
 [target.'cfg(windows)'.dependencies.windows]
@@ -38,5 +38,5 @@ apple-sys = { version = "0.1.2", features = ["CoreFoundation", "IOKit"] }
 core-foundation = "0.9.3"
 
 [build-dependencies]
-shadow-rs = "0.16.3"
+shadow-rs = "0.17.0"
 winres = "0.1.12"
