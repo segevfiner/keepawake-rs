@@ -75,13 +75,10 @@ impl Awake {
                 self.session_conn.as_ref().unwrap(),
             )?);
             Some(
-                self.screensaver_proxy.as_ref().unwrap().inhibit(
-                    self.options
-                        .consumer
-                        .as_deref()
-                        .unwrap_or("io.github.segevfiner.keepawake-rs"),
-                    self.options.reason.as_deref().unwrap_or("User requested"),
-                )?,
+                self.screensaver_proxy
+                    .as_ref()
+                    .unwrap()
+                    .inhibit(self.options.consumer_domain(), self.options.reason())?,
             )
         } else {
             None
@@ -97,8 +94,8 @@ impl Awake {
         self.idle_fd = if self.options.idle {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "idle",
-                self.options.consumer.as_deref().unwrap_or("keepawake-rs"),
-                self.options.reason.as_deref().unwrap_or("User requested"),
+                self.options.consumer(),
+                self.options.reason(),
                 "block",
             )?)
         } else {
@@ -108,8 +105,8 @@ impl Awake {
         self.sleep_fd = if self.options.sleep {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "sleep",
-                self.options.consumer.as_deref().unwrap_or("keepawake-rs"),
-                self.options.reason.as_deref().unwrap_or("User requested"),
+                self.options.consumer(),
+                self.options.reason(),
                 "block",
             )?)
         } else {
