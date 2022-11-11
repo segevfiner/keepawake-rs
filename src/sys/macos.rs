@@ -31,9 +31,9 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: &AwakeOptions) -> Result<Self> {
+    pub fn new(options: AwakeOptions) -> Result<Self> {
         let mut awake = Awake {
-            options: *options,
+            options,
             display_assertion: 0,
             idle_assertion: 0,
             sleep_assertion: 0,
@@ -50,7 +50,7 @@ impl Awake {
                     CFString::from_static_string(kIOPMAssertionTypePreventUserIdleDisplaySleep)
                         .as_concrete_TypeRef() as CFStringRef,
                     kIOPMAssertionLevelOn,
-                    CFString::new("User requested").as_concrete_TypeRef() as CFStringRef,
+                    CFString::new(self.options.reason()).as_concrete_TypeRef() as CFStringRef,
                     &mut self.display_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
@@ -66,7 +66,7 @@ impl Awake {
                     CFString::from_static_string(kIOPMAssertionTypePreventUserIdleSystemSleep)
                         .as_concrete_TypeRef() as CFStringRef,
                     kIOPMAssertionLevelOn,
-                    CFString::new("User requested").as_concrete_TypeRef() as CFStringRef,
+                    CFString::new(self.options.reason()).as_concrete_TypeRef() as CFStringRef,
                     &mut self.idle_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
@@ -81,7 +81,7 @@ impl Awake {
                     CFString::from_static_string(kIOPMAssertionTypePreventSystemSleep)
                         .as_concrete_TypeRef() as CFStringRef,
                     kIOPMAssertionLevelOn,
-                    CFString::new("User requested").as_concrete_TypeRef() as CFStringRef,
+                    CFString::new(self.options.reason()).as_concrete_TypeRef() as CFStringRef,
                     &mut self.sleep_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {

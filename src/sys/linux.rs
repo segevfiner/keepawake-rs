@@ -51,9 +51,9 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: &AwakeOptions) -> Result<Self> {
+    pub fn new(options: AwakeOptions) -> Result<Self> {
         let mut awake = Awake {
-            options: *options,
+            options,
 
             session_conn: None,
             screensaver_proxy: None,
@@ -78,7 +78,7 @@ impl Awake {
                 self.screensaver_proxy
                     .as_ref()
                     .unwrap()
-                    .inhibit("io.github.segevfiner.keepawake-rs", "User requested")?,
+                    .inhibit(self.options.consumer_domain(), self.options.reason())?,
             )
         } else {
             None
@@ -94,8 +94,8 @@ impl Awake {
         self.idle_fd = if self.options.idle {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "idle",
-                "keepawake-rs",
-                "User requested",
+                self.options.consumer(),
+                self.options.reason(),
                 "block",
             )?)
         } else {
@@ -105,8 +105,8 @@ impl Awake {
         self.sleep_fd = if self.options.sleep {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "sleep",
-                "keepawake-rs",
-                "User requested",
+                self.options.consumer(),
+                self.options.reason(),
                 "block",
             )?)
         } else {
