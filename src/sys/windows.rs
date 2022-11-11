@@ -22,9 +22,9 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: &AwakeOptions) -> Result<Self> {
+    pub fn new(options: AwakeOptions) -> Result<Self> {
         let mut awake = Awake {
-            options: *options,
+            options,
             previous: Default::default(),
         };
         awake.set()?;

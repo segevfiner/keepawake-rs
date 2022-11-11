@@ -60,10 +60,11 @@ fn main() -> Result<()> {
         .expect("Error setting Ctrl-C handler");
 
     let exit_code = {
-        let _awake = Awake::new(&AwakeOptions {
+        let _awake = Awake::new(AwakeOptions {
             display: cli.display,
             idle: cli.idle,
             sleep: cli.sleep,
+            ..Default::default()
         })?;
 
         if !cli.command.is_empty() {
