@@ -5,12 +5,15 @@
 //! ```
 //! use keepawake::Builder;
 //!
+//! # fn main() -> anyhow::Result<()> {
 //! let _awake = Builder::new()
 //!     .display(true)
 //!     .reason("Video playback".to_string())
 //!     .app_name("My prog".to_string())
 //!     .app_reverse_domain("io.github.myprog".to_string())
-//!     .create();
+//!     .create()?;
+//! # Ok(())
+//! # }
 //! ```
 
 use anyhow::Result;
