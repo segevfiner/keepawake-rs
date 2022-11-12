@@ -10,7 +10,7 @@
 use anyhow::Result;
 use zbus::{blocking::Connection, dbus_proxy};
 
-use crate::AwakeOptions;
+use crate::Builder;
 
 #[dbus_proxy(
     interface = "org.freedesktop.login1.Manager",
@@ -38,7 +38,7 @@ trait ScreenSaver {
 }
 
 pub struct Awake {
-    options: AwakeOptions,
+    options: Builder,
 
     session_conn: Option<Connection>,
     screensaver_proxy: Option<ScreenSaverProxyBlocking<'static>>,
@@ -51,7 +51,7 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: AwakeOptions) -> Result<Self> {
+    pub fn new(options: Builder) -> Result<Self> {
         let mut awake = Awake {
             options,
 
@@ -74,12 +74,10 @@ impl Awake {
             self.screensaver_proxy = Some(ScreenSaverProxyBlocking::new(
                 self.session_conn.as_ref().unwrap(),
             )?);
-            Some(
-                self.screensaver_proxy
-                    .as_ref()
-                    .unwrap()
-                    .inhibit(self.options.consumer_domain(), self.options.reason())?,
-            )
+            Some(self.screensaver_proxy.as_ref().unwrap().inhibit(
+                self.options.app_reverse_domain_or_default(),
+                self.options.reason_or_default(),
+            )?)
         } else {
             None
         };
@@ -94,8 +92,8 @@ impl Awake {
         self.idle_fd = if self.options.idle {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "idle",
-                self.options.consumer(),
-                self.options.reason(),
+                self.options.app_name_or_default(),
+                self.options.reason_or_default(),
                 "block",
             )?)
         } else {
@@ -105,8 +103,8 @@ impl Awake {
         self.sleep_fd = if self.options.sleep {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "sleep",
-                self.options.consumer(),
-                self.options.reason(),
+                self.options.app_name_or_default(),
+                self.options.reason_or_default(),
                 "block",
             )?)
         } else {

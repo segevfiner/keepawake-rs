@@ -1,48 +1,108 @@
+//! Keep your computer awake.
+//!
+//! # Examples
+//!
+//! ```
+//! use keepawake::Builder;
+//!
+//! let _awake = Builder::new()
+//!     .display(true)
+//!     .reason("Video playback".to_string())
+//!     .app_name("My prog".to_string())
+//!     .app_reverse_domain("io.github.myprog".to_string())
+//!     .create();
+//! ```
+
 use anyhow::Result;
 
 mod sys;
 
-// TODO Should this be a builder for Awake instead of public fields?
-#[derive(Clone, Debug, Default)]
-pub struct AwakeOptions {
-    pub display: bool,
-    pub idle: bool,
-    pub sleep: bool,
-    /// Reason the consumer is keeping the system awake. Defaults to "User requested".
-    pub reason: Option<String>,
-    /// Name of the program keeping the system awake. Defaults to "keepawake-rs" if not given.
-    pub consumer: Option<String>,
-    /// Domain name of the program keeping the system awake. Defaults to "io.github.segevfiner.keepawake-rs" if not given.
-    pub consumer_domain: Option<String>,
+/// Builder for a new [AwakeHandle].
+#[derive(Debug)]
+pub struct Builder {
+    display: bool,
+    idle: bool,
+    sleep: bool,
+    reason: Option<String>,
+    app_name: Option<String>,
+    app_reverse_domain: Option<String>,
 }
 
-impl AwakeOptions {
-    #[allow(dead_code)] // unused on Windows
-    pub(crate) fn reason(&self) -> &str {
+impl Builder {
+    pub fn new() -> Self {
+        Builder {
+            display: false,
+            idle: false,
+            sleep: false,
+            reason: None,
+            app_name: None,
+            app_reverse_domain: None,
+        }
+    }
+
+    /// Prevent the display from turning off.
+    pub fn display(mut self, display: bool) -> Self {
+        self.display = display;
+        self
+    }
+
+    /// Prevent the system from sleeping due to idleness.
+    pub fn idle(mut self, idle: bool) -> Self {
+        self.idle = idle;
+        self
+    }
+
+    /// Prevent the system from sleeping. Only works under certain, OS dependant, conditions.
+    pub fn sleep(mut self, sleep: bool) -> Self {
+        self.sleep = sleep;
+        self
+    }
+
+    /// Reason the consumer is keeping the system awake. Defaults to `"User requested"`. (Used on Linux & macOS)
+    pub fn reason(mut self, reason: String) -> Self {
+        self.reason = Some(reason);
+        self
+    }
+
+    #[allow(dead_code)] // Unused on Windows
+    pub(crate) fn reason_or_default(&self) -> &str {
+        // TODO Reconsider this defaults. They are really meant for the CLI.
         self.reason.as_deref().unwrap_or("User requested")
     }
 
-    #[allow(dead_code)] // unused on macOS and Windows
-    pub(crate) fn consumer(&self) -> &str {
-        self.reason.as_deref().unwrap_or("keepawake-rs")
+    /// Name of the program keeping the system awake. Defaults to `"keepawake-rs"`. (Used on Linux)
+    pub fn app_name(mut self, app_name: String) -> Self {
+        self.app_name = Some(app_name);
+        self
     }
 
-    #[allow(dead_code)] // unused on macOS and Windows
-    pub(crate) fn consumer_domain(&self) -> &str {
-        self.reason.as_deref().unwrap_or("io.github.segevfiner.keepawake-rs")
+    #[allow(dead_code)] // Unused on macOS and Windows
+    pub(crate) fn app_name_or_default(&self) -> &str {
+        self.app_name.as_deref().unwrap_or("keepawake-rs")
     }
-}
 
-/// Once created, keeps the machine or display awake (as requested in the
-/// AwakeOptions) until dropped.
-pub struct Awake {
-    _imp: sys::Awake,
-}
+    /// Reverse domain name of the program keeping the system awake. Defaults to `"io.github.segevfiner.keepawake-rs"`. (Used on Linux)
+    pub fn app_reverse_domain(mut self, consumer_reverse_domain: String) -> Self {
+        self.app_reverse_domain = Some(consumer_reverse_domain);
+        self
+    }
 
-impl Awake {
-    pub fn new(options: AwakeOptions) -> Result<Self> {
-        Ok(Awake {
-            _imp: sys::Awake::new(options)?,
+    #[allow(dead_code)] // Unused on macOS and Windows
+    pub(crate) fn app_reverse_domain_or_default(&self) -> &str {
+        self.app_reverse_domain
+            .as_deref()
+            .unwrap_or("io.github.segevfiner.keepawake-rs")
+    }
+
+    /// Create the [AwakeHandle], consuming self.
+    pub fn create(self) -> Result<AwakeHandle> {
+        Ok(AwakeHandle {
+            _imp: sys::Awake::new(self)?,
         })
     }
+}
+
+/// Keeps the machine or display awake (as configured), until dropped. Create using [Builder].
+pub struct AwakeHandle {
+    _imp: sys::Awake,
 }

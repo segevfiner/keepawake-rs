@@ -14,15 +14,15 @@ use windows::Win32::System::Power::{
     ES_SYSTEM_REQUIRED, EXECUTION_STATE,
 };
 
-use crate::AwakeOptions;
+use crate::Builder;
 
 pub struct Awake {
-    options: AwakeOptions,
+    options: Builder,
     previous: EXECUTION_STATE,
 }
 
 impl Awake {
-    pub fn new(options: AwakeOptions) -> Result<Self> {
+    pub fn new(options: Builder) -> Result<Self> {
         let mut awake = Awake {
             options,
             previous: Default::default(),
