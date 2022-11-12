@@ -118,8 +118,8 @@ impl Awake {
 impl Drop for Awake {
     fn drop(&mut self) {
         if self.options.display {
-            if let Some(p) = self.screensaver_proxy.as_ref() {
-                p.un_inhibit(self.cookie.unwrap()).unwrap()
+            if let (Some(p), Some(cookie)) = (self.screensaver_proxy.as_ref(), self.cookie) {
+                p.un_inhibit(cookie).unwrap()
             }
         }
     }
