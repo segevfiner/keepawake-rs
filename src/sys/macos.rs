@@ -11,7 +11,7 @@ use apple_sys::IOKit::{
 };
 use core_foundation::{base::TCFType, string::CFString};
 
-use crate::AwakeOptions;
+use crate::Builder;
 
 #[allow(non_upper_case_globals)]
 const kIOPMAssertionTypePreventUserIdleSystemSleep: &str = "PreventUserIdleSystemSleep";
@@ -23,7 +23,7 @@ const kIOPMAssertionTypePreventUserIdleDisplaySleep: &str = "PreventUserIdleDisp
 const kIOPMAssertionTypePreventSystemSleep: &str = "PreventSystemSleep";
 
 pub struct Awake {
-    options: AwakeOptions,
+    options: Builder,
 
     display_assertion: u32,
     idle_assertion: u32,
@@ -31,7 +31,7 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: AwakeOptions) -> Result<Self> {
+    pub fn new(options: Builder) -> Result<Self> {
         let mut awake = Awake {
             options,
             display_assertion: 0,
@@ -50,7 +50,8 @@ impl Awake {
                     CFString::from_static_string(kIOPMAssertionTypePreventUserIdleDisplaySleep)
                         .as_concrete_TypeRef() as CFStringRef,
                     kIOPMAssertionLevelOn,
-                    CFString::new(self.options.reason()).as_concrete_TypeRef() as CFStringRef,
+                    CFString::new(self.options.reason_or_default()).as_concrete_TypeRef()
+                        as CFStringRef,
                     &mut self.display_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
@@ -66,7 +67,8 @@ impl Awake {
                     CFString::from_static_string(kIOPMAssertionTypePreventUserIdleSystemSleep)
                         .as_concrete_TypeRef() as CFStringRef,
                     kIOPMAssertionLevelOn,
-                    CFString::new(self.options.reason()).as_concrete_TypeRef() as CFStringRef,
+                    CFString::new(self.options.reason_or_default()).as_concrete_TypeRef()
+                        as CFStringRef,
                     &mut self.idle_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
@@ -81,7 +83,8 @@ impl Awake {
                     CFString::from_static_string(kIOPMAssertionTypePreventSystemSleep)
                         .as_concrete_TypeRef() as CFStringRef,
                     kIOPMAssertionLevelOn,
-                    CFString::new(self.options.reason()).as_concrete_TypeRef() as CFStringRef,
+                    CFString::new(self.options.reason_or_default()).as_concrete_TypeRef()
+                        as CFStringRef,
                     &mut self.sleep_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
