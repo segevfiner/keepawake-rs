@@ -102,6 +102,12 @@ impl Builder {
     }
 }
 
+impl Default for Builder {
+    fn default() -> Self {
+        Builder::new()
+    }
+}
+
 /// Keeps the machine or display awake (as configured), until dropped. Create using [Builder].
 pub struct AwakeHandle {
     _imp: sys::Awake,
