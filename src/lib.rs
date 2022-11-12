@@ -5,7 +5,7 @@
 //! ```
 //! use keepawake::Builder;
 //!
-//! # fn main() -> anyhow::Result<()> {
+//! # fn try_main() -> anyhow::Result<()> {
 //! let _awake = Builder::new()
 //!     .display(true)
 //!     .reason("Video playback".to_string())
@@ -14,6 +14,22 @@
 //!     .create()?;
 //! # Ok(())
 //! # }
+//! # try_main();
+//! ```
+//!
+//! //!
+//! ```
+//! use keepawake::Builder;
+//!
+//! # fn try_main() -> anyhow::Result<()> {
+//! let _awake = Builder::new()
+//!     .display(true)
+//!     .idle(true)
+//!     .sleep(true)
+//!     .create()?;
+//! # Ok(())
+//! # }
+//! # try_main();
 //! ```
 
 use anyhow::Result;
