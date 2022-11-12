@@ -3,10 +3,8 @@
 //! # Examples
 //!
 //! ```
-//! use keepawake::Builder;
-//!
 //! # fn try_main() -> anyhow::Result<()> {
-//! let _awake = Builder::new()
+//! let _awake = keepawake::Builder::new()
 //!     .display(true)
 //!     .reason("Video playback".to_string())
 //!     .app_name("My prog".to_string())
@@ -19,10 +17,8 @@
 //!
 //! //!
 //! ```
-//! use keepawake::Builder;
-//!
 //! # fn try_main() -> anyhow::Result<()> {
-//! let _awake = Builder::new()
+//! let _awake = keepawake::Builder::new()
 //!     .display(true)
 //!     .idle(true)
 //!     .sleep(true)
