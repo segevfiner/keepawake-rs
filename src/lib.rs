@@ -6,9 +6,9 @@
 //! # fn try_main() -> anyhow::Result<()> {
 //! let _awake = keepawake::Builder::new()
 //!     .display(true)
-//!     .reason("Video playback".to_string())
-//!     .app_name("My prog".to_string())
-//!     .app_reverse_domain("io.github.myprog".to_string())
+//!     .reason("Video playback")
+//!     .app_name("My prog")
+//!     .app_reverse_domain("io.github.myprog")
 //!     .create()?;
 //! # Ok(())
 //! # }
@@ -74,8 +74,8 @@ impl Builder {
     }
 
     /// Reason the consumer is keeping the system awake. Defaults to `"User requested"`. (Used on Linux & macOS)
-    pub fn reason(mut self, reason: String) -> Self {
-        self.reason = Some(reason);
+    pub fn reason(mut self, reason: impl Into<String>) -> Self {
+        self.reason = Some(reason.into());
         self
     }
 
@@ -86,8 +86,8 @@ impl Builder {
     }
 
     /// Name of the program keeping the system awake. Defaults to `"keepawake-rs"`. (Used on Linux)
-    pub fn app_name(mut self, app_name: String) -> Self {
-        self.app_name = Some(app_name);
+    pub fn app_name(mut self, app_name: impl Into<String>) -> Self {
+        self.app_name = Some(app_name.into());
         self
     }
 
@@ -97,8 +97,8 @@ impl Builder {
     }
 
     /// Reverse domain name of the program keeping the system awake. Defaults to `"io.github.segevfiner.keepawake-rs"`. (Used on Linux)
-    pub fn app_reverse_domain(mut self, consumer_reverse_domain: String) -> Self {
-        self.app_reverse_domain = Some(consumer_reverse_domain);
+    pub fn app_reverse_domain(mut self, consumer_reverse_domain: impl Into<String>) -> Self {
+        self.app_reverse_domain = Some(consumer_reverse_domain.into());
         self
     }
 
