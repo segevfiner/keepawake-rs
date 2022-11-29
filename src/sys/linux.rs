@@ -28,7 +28,7 @@ trait Manager {
     ) -> zbus::Result<zbus::zvariant::OwnedFd>;
 }
 
-#[dbus_proxy]
+#[dbus_proxy(assume_defaults = true)]
 trait ScreenSaver {
     /// Inhibit method
     fn inhibit(&self, application_name: &str, reason_for_inhibit: &str) -> zbus::Result<u32>;
