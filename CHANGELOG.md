@@ -4,10 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.3.0 - 2022-11-30
+### Changed
+- Bump required `zbus`, and add `assume_defaults` to avoid a warning. [#8](https://github.com/segevfiner/keepawake-rs/pull/8)
+- Use `impl Into<String>` in builder parameters to make usage more ergonomic. [#9](https://github.com/segevfiner/keepawake-rs/pull/9)
+
 ## 0.2.0 - 2022-11-12
 ### Changed
 - The library crate now allows setting the reason and application name used on some operating
-  systems.
+  systems. [#5](https://github.com/segevfiner/keepawake-rs/pull/5)
 - The libray crate now exposes a builder API instead of a struct.
 
 ### Fixed
