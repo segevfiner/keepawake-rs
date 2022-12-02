@@ -26,6 +26,6 @@ jobs:
       run: cargo fmt --check
       continue-on-error: true
     - name: Check
-      run: cargo clippy --locked --verbose --all-features
+      run: cargo clippy --verbose --locked --all-features
     - name: Run tests
-      run: cargo test --locked --verbose --all-features
+      run: cargo test --verbose --locked --all-features

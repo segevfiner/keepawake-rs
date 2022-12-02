@@ -38,7 +38,7 @@ jobs:
         if: matrix.target == 'aarch64-apple-darwin'
 
       - name: Build
-        run: cross build --verbose --locked --release --target ${{ matrix.target }}
+        run: cross build --verbose --locked -F bin --release --target ${{ matrix.target }}
 
       - name: Package
         shell: bash
