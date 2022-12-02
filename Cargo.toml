@@ -1,6 +1,6 @@
 [package]
 name = "keepawake"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Segev Finer <segev208@gmail.com>"]
 edition = "2021"
 rust-version = "1.63"
@@ -11,18 +11,25 @@ keywords = ["caffeinate", "systemd-inhibit", "idle", "sleep", "power-management"
 categories = ["command-line-utilities"]
 exclude = ["/tools/"]
 
+[features]
+bin = ["dep:clap", "dep:clap_complete", "dep:ctrlc", "dep:sysinfo"]
+
 [profile.release]
 strip = true
 lto = "thin"
 
+[[bin]]
+name = "keepawake"
+required-features = ["bin"]
+
 [dependencies]
 anyhow = "1.0.65"
 cfg-if = "1.0.0"
-clap = { version = "4.0.2", features = ["derive"] }
-clap_complete = "4.0.2"
-ctrlc = { version = "3.2.3", features = ["termination"] }
+clap = { version = "4.0.2", features = ["derive"], optional = true }
+clap_complete = { version = "4.0.2", optional = true }
+ctrlc = { version = "3.2.3", features = ["termination"], optional = true }
 shadow-rs = "0.18.0"
-sysinfo = "0.26.4"
+sysinfo = { version = "0.26.4", optional = true }
 
 [target.'cfg(windows)'.dependencies.windows]
 version = "0.43.0"

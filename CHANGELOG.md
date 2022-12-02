@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Changed
+- The binary of the crate is now behind the feature `bin` so users of the library crate bring in
+  less dependencies.
+
 ## 0.3.0 - 2022-11-30
 ### Changed
 - Bump required `zbus`, and add `assume_defaults` to avoid a warning. [#8](https://github.com/segevfiner/keepawake-rs/pull/8)
