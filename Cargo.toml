@@ -45,5 +45,5 @@ apple-sys = { version = "0.2.0", features = ["CoreFoundation", "IOKit"] }
 core-foundation = "0.9.3"
 
 [build-dependencies]
-shadow-rs = "0.20.0"
+shadow-rs = "0.21.0"
 winres = "0.1.12"
