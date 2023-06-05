@@ -105,9 +105,9 @@ impl Drop for Awake {
             }
         }
 
-        if self.display_assertion != 0 {
+        if self.idle_assertion != 0 {
             unsafe {
-                IOPMAssertionRelease(self.display_assertion);
+                IOPMAssertionRelease(self.idle_assertion);
             }
         }
 
