@@ -31,7 +31,7 @@ jobs:
 
       - name: Install target
         run: rustup target add ${{ matrix.target }}
-        if: matrix.target == 'aarch64-apple-darwin'
+        if: contains(['x86_64-unknown-linux-musl', 'aarch64-apple-darwin'], matrix.target)
 
       - name: Build
         run: cross build --verbose --locked -F bin --release --target ${{ matrix.target }}
