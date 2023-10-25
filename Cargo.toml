@@ -1,6 +1,6 @@
 [package]
 name = "keepawake"
-version = "0.4.3"
+version = "0.4.4"
 authors = ["Segev Finer <segev208@gmail.com>"]
 edition = "2021"
 rust-version = "1.63"
