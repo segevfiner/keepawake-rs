@@ -46,4 +46,4 @@ core-foundation = "0.9.3"
 
 [build-dependencies]
 shadow-rs = "0.24.0"
-winres = "0.1.12"
+winresource = "0.1.17"
