@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrate to winresource from winres.
 - Make manifest conditional on "bin" feature to avoid it propogating to dependents
   (https://github.com/BenjaminRi/winresource/issues/16).
+- Make shadow-rs conditional on "bin" feature.
 
 ## 0.4.4 - 2023-10-25
 ### Changed
