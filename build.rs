@@ -1,4 +1,5 @@
 use std::error::Error;
+#[allow(unused_imports)]
 use std::env;
 
 fn main() -> Result<(), Box<dyn Error>> {
