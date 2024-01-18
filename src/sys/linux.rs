@@ -10,7 +10,7 @@
 use anyhow::Result;
 use zbus::{blocking::Connection, dbus_proxy};
 
-use crate::Builder;
+use crate::Options;
 
 #[dbus_proxy(
     interface = "org.freedesktop.login1.Manager",
@@ -38,7 +38,7 @@ trait ScreenSaver {
 }
 
 pub struct Awake {
-    options: Builder,
+    options: Options,
 
     session_conn: Option<Connection>,
     screensaver_proxy: Option<ScreenSaverProxyBlocking<'static>>,
@@ -51,7 +51,7 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: Builder) -> Result<Self> {
+    pub fn new(options: Options) -> Result<Self> {
         let mut awake = Awake {
             options,
 

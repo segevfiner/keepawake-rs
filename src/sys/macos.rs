@@ -11,7 +11,7 @@ use apple_sys::IOKit::{
 };
 use core_foundation::{base::TCFType, string::CFString};
 
-use crate::Builder;
+use crate::Options;
 
 #[allow(non_upper_case_globals)]
 const kIOPMAssertionTypePreventUserIdleSystemSleep: &str = "PreventUserIdleSystemSleep";
@@ -23,7 +23,7 @@ const kIOPMAssertionTypePreventUserIdleDisplaySleep: &str = "PreventUserIdleDisp
 const kIOPMAssertionTypePreventSystemSleep: &str = "PreventSystemSleep";
 
 pub struct Awake {
-    options: Builder,
+    options: Options,
 
     display_assertion: u32,
     idle_assertion: u32,
@@ -31,7 +31,7 @@ pub struct Awake {
 }
 
 impl Awake {
-    pub fn new(options: Builder) -> Result<Self> {
+    pub fn new(options: Options) -> Result<Self> {
         let mut awake = Awake {
             options,
             display_assertion: 0,

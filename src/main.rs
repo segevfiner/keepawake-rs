@@ -10,7 +10,7 @@ use anyhow::Result;
 use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::{generate, Shell};
 use shadow_rs::shadow;
-use sysinfo::{Pid, PidExt, ProcessRefreshKind, System, SystemExt};
+use sysinfo::{Pid, ProcessRefreshKind, System};
 
 use keepawake::Builder;
 
@@ -60,11 +60,11 @@ fn main() -> Result<()> {
         .expect("Error setting Ctrl-C handler");
 
     let exit_code = {
-        let _awake = Builder::new()
+        let _awake = Builder::default()
             .display(cli.display)
             .idle(cli.idle)
             .sleep(cli.sleep)
-            .create();
+            .create()?;
 
         if !cli.command.is_empty() {
             // TODO Improve exit code in signal exit cases
