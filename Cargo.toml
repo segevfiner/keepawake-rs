@@ -12,7 +12,7 @@ categories = ["command-line-utilities"]
 exclude = ["/tools/"]
 
 [features]
-bin = ["dep:clap", "dep:clap_complete", "dep:ctrlc", "dep:shadow-rs", "dep:sysinfo"]
+bin = ["dep:clap", "dep:clap_complete", "dep:ctrlc", "dep:shadow-rs", "dep:sysinfo", "dep:winresource"]
 
 [profile.release]
 strip = true
@@ -47,4 +47,4 @@ core-foundation = "0.9.3"
 
 [build-dependencies]
 shadow-rs = { version = "0.26.1", optional = true }
-winresource = "0.1.17"
+winresource = { version = "0.1.17", optional = true }
