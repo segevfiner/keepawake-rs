@@ -75,8 +75,8 @@ impl Awake {
                 self.session_conn.as_ref().unwrap(),
             )?);
             Some(self.screensaver_proxy.as_ref().unwrap().inhibit(
-                self.options.app_reverse_domain_or_default(),
-                self.options.reason_or_default(),
+                self.options.app_reverse_domain,
+                self.options.reason,
             )?)
         } else {
             None
@@ -92,8 +92,8 @@ impl Awake {
         self.idle_fd = if self.options.idle {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "idle",
-                self.options.app_name_or_default(),
-                self.options.reason_or_default(),
+                self.options.app_name,
+                self.options.reason,
                 "block",
             )?)
         } else {
@@ -103,8 +103,8 @@ impl Awake {
         self.sleep_fd = if self.options.sleep {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "sleep",
-                self.options.app_name_or_default(),
-                self.options.reason_or_default(),
+                self.options.app_name,
+                self.options.reason,
                 "block",
             )?)
         } else {
