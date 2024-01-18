@@ -37,7 +37,7 @@ trait ScreenSaver {
     fn un_inhibit(&self, cookie: u32) -> zbus::Result<()>;
 }
 
-pub struct Awake {
+pub struct KeepAwake {
     options: Options,
 
     session_conn: Option<Connection>,
@@ -50,9 +50,9 @@ pub struct Awake {
     sleep_fd: Option<zbus::zvariant::OwnedFd>,
 }
 
-impl Awake {
+impl KeepAwake {
     pub fn new(options: Options) -> Result<Self> {
-        let mut awake = Awake {
+        let mut awake = Self {
             options,
 
             session_conn: None,
@@ -115,7 +115,7 @@ impl Awake {
     }
 }
 
-impl Drop for Awake {
+impl Drop for KeepAwake {
     fn drop(&mut self) {
         if self.options.display {
             if let (Some(p), Some(cookie)) = (self.screensaver_proxy.as_ref(), self.cookie) {
