@@ -27,6 +27,8 @@
 //! # try_main();
 //! ```
 
+use std::error;
+
 use derive_builder::Builder;
 use thiserror::Error;
 
@@ -38,7 +40,7 @@ pub enum Error {
     Builder(#[from] BuilderError),
 
     #[error("system: {0}")]
-    System(#[from] anyhow::Error),
+    System(#[from] Box<dyn error::Error + Send + Sync>),
 }
 
 #[derive(Builder, Debug)]

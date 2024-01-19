@@ -4,7 +4,6 @@
 //!
 //! [`IOPMAssertionCreateWithName`]: https://developer.apple.com/documentation/iokit/1557134-iopmassertioncreatewithname
 
-use anyhow::{anyhow, Result};
 use apple_sys::IOKit::{
     kIOPMAssertionLevelOn, kIOReturnSuccess, CFStringRef, IOPMAssertionCreateWithName,
     IOPMAssertionRelease,
@@ -42,7 +41,7 @@ impl KeepAwake {
         Ok(awake)
     }
 
-    fn set(&mut self) -> Result<()> {
+    fn set(&mut self) -> Result<(), Box<dyn error::Error + Send + Sync>> {
         if self.options.display {
             unsafe {
                 let result = IOPMAssertionCreateWithName(
@@ -55,7 +54,7 @@ impl KeepAwake {
                 );
                 if result != kIOReturnSuccess as i32 {
                     // TODO Better error?
-                    return Err(anyhow!("IO error: {:#x}", result));
+                    return Err(format!("IO error: {:#x}", result).into());
                 }
             }
         }
@@ -70,7 +69,7 @@ impl KeepAwake {
                     &mut self.idle_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    return Err(anyhow!("IO error: {:#x}", result));
+                    return Err(format!("IO error: {:#x}", result).into());
                 }
             }
         }
@@ -85,7 +84,7 @@ impl KeepAwake {
                     &mut self.sleep_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    return Err(anyhow!("IO error: {:#x}", result));
+                    return Err(format!("IO error: {:#x}", result).into());
                 }
             }
         }
