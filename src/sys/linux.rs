@@ -74,10 +74,12 @@ impl KeepAwake {
             self.screensaver_proxy = Some(ScreenSaverProxyBlocking::new(
                 self.session_conn.as_ref().unwrap(),
             )?);
-            Some(self.screensaver_proxy.as_ref().unwrap().inhibit(
-                &self.options.app_reverse_domain,
-                &self.options.reason,
-            )?)
+            Some(
+                self.screensaver_proxy
+                    .as_ref()
+                    .unwrap()
+                    .inhibit(&self.options.app_reverse_domain, &self.options.reason)?,
+            )
         } else {
             None
         };

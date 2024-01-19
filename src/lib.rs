@@ -58,7 +58,10 @@ struct Options {
     app_name: String,
 
     /// Reverse domain name of the program keeping the system awake. Defaults to `"io.github.segevfiner.keepawake-rs"`. (Used on Linux)
-    #[builder(setter(into), default = "\"io.github.segevfiner.keepawake-rs\".to_string()")]
+    #[builder(
+        setter(into),
+        default = "\"io.github.segevfiner.keepawake-rs\".to_string()"
+    )]
     app_reverse_domain: String,
 }
 
