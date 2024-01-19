@@ -27,10 +27,19 @@
 //! # try_main();
 //! ```
 
-use anyhow::Result;
 use derive_builder::Builder;
+use thiserror::Error;
 
 mod sys;
+
+#[derive(Error, Debug)]
+pub enum Error {
+    #[error(transparent)]
+    Builder(#[from] BuilderError),
+
+    #[error("system: {0}")]
+    System(#[from] anyhow::Error),
+}
 
 #[derive(Builder, Debug)]
 #[builder(public, name = "Builder", build_fn(private))]
@@ -66,7 +75,7 @@ struct Options {
 }
 
 impl Builder {
-    pub fn create(&self) -> Result<KeepAwake> {
+    pub fn create(&self) -> Result<KeepAwake, Error> {
         Ok(KeepAwake {
             _imp: sys::KeepAwake::new(self.build()?)?,
         })

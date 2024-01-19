@@ -31,6 +31,7 @@ ctrlc = { version = "3.2.3", features = ["termination"], optional = true }
 derive_builder = "0.12.0"
 shadow-rs = { version = "0.26.1", optional = true }
 sysinfo = { version = "0.30.5", optional = true }
+thiserror = "1.0.56"
 
 [target.'cfg(windows)'.dependencies.windows]
 version = "0.52.0"
