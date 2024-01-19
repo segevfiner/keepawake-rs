@@ -4,6 +4,8 @@
 //!
 //! [`IOPMAssertionCreateWithName`]: https://developer.apple.com/documentation/iokit/1557134-iopmassertioncreatewithname
 
+use std::error;
+
 use apple_sys::IOKit::{
     kIOPMAssertionLevelOn, kIOReturnSuccess, CFStringRef, IOPMAssertionCreateWithName,
     IOPMAssertionRelease,
