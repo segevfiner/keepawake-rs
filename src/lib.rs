@@ -15,7 +15,6 @@
 //! # try_main();
 //! ```
 //!
-//! //!
 //! ```
 //! # fn try_main() -> anyhow::Result<()> {
 //! let _awake = keepawake::Builder::default()
@@ -33,21 +32,32 @@ use derive_builder::Builder;
 
 mod sys;
 
-#[derive(Builder, Debug, Default)]
-#[builder(public, default, name = "Builder", build_fn(private))]
+#[derive(Builder, Debug)]
+#[builder(public, name = "Builder", build_fn(private))]
 #[allow(dead_code)] // Some fields are unused on some platforms
 struct Options {
+    /// Prevent the display from turning off.
+    #[builder(default)]
     display: bool,
+
+    /// Prevent the system from sleeping due to idleness.
+    #[builder(default)]
     idle: bool,
+
+    /// Prevent the system from sleeping. Only works under certain, OS dependant, conditions.
+    #[builder(default)]
     sleep: bool,
 
     // TODO Reconsider this defaults. They are really meant for the CLI.
+    /// Reason the consumer is keeping the system awake. Defaults to `"User requested"`. (Used on Linux & macOS)
     #[builder(setter(into), default = "\"User requested\".to_string()")]
     reason: String,
 
+    /// Name of the program keeping the system awake. Defaults to `"keepawake-rs"`. (Used on Linux)
     #[builder(setter(into), default = "\"keepawake-rs\".to_string()")]
     app_name: String,
 
+    /// Reverse domain name of the program keeping the system awake. Defaults to `"io.github.segevfiner.keepawake-rs"`. (Used on Linux)
     #[builder(setter(into), default = "\"io.github.segevfiner.keepawake-rs\".to_string()")]
     app_reverse_domain: String,
 }
@@ -60,7 +70,7 @@ impl Builder {
     }
 }
 
-/// Keeps the machine or display awake (as configured), until dropped. Create using [Builder].
+/// Keeps the machine or display awake (as configured), until dropped. Create using [struct@Builder].
 pub struct KeepAwake {
     _imp: sys::KeepAwake,
 }
