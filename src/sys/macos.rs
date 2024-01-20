@@ -32,7 +32,7 @@ pub struct KeepAwake {
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self> {
+    pub fn new(options: Options) -> Result<Self, Box<dyn error::Error + Send + Sync>> {
         let mut awake = Self {
             options,
             display_assertion: 0,
