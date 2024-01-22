@@ -32,6 +32,9 @@ use derive_builder::Builder;
 
 mod sys;
 
+#[cfg(feature = "capi")]
+pub mod capi;
+
 #[derive(Builder, Debug)]
 #[builder(public, name = "Builder", build_fn(private))]
 #[allow(dead_code)] // Some fields are unused on some platforms
