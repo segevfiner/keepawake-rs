@@ -1,4 +1,7 @@
-use std::{ptr, ffi::{c_char, CStr}};
+use std::{
+    ffi::{c_char, CStr},
+    ptr,
+};
 
 use crate::{Builder, KeepAwake};
 
@@ -44,9 +47,16 @@ pub unsafe extern "C" fn keepawake_app_reverse_domain(builder: *mut Builder, val
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn keepawake_create(builder: *mut Builder) -> *mut KeepAwake {
+pub unsafe extern "C" fn keepawake_create(
+    builder: *mut Builder,
+    free_builder: bool,
+) -> *mut KeepAwake {
     assert!(!builder.is_null());
-    (*builder).create().map_or(ptr::null_mut(), |v| Box::into_raw(Box::new(v)))
+    let result = (*builder).create();
+    if free_builder {
+        drop(Box::from_raw(builder));
+    }
+    result.map_or(ptr::null_mut(), |v| Box::into_raw(Box::new(v)))
 }
 
 #[no_mangle]
