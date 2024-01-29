@@ -1,6 +1,6 @@
-use std::error::Error;
 #[allow(unused_imports)]
 use std::env;
+use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
     #[cfg(feature = "bin")]

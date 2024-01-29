@@ -10,7 +10,7 @@
 use anyhow::Result;
 use zbus::{blocking::Connection, dbus_proxy};
 
-use crate::Builder;
+use crate::Options;
 
 #[dbus_proxy(
     interface = "org.freedesktop.login1.Manager",
@@ -37,8 +37,8 @@ trait ScreenSaver {
     fn un_inhibit(&self, cookie: u32) -> zbus::Result<()>;
 }
 
-pub struct Awake {
-    options: Builder,
+pub struct KeepAwake {
+    options: Options,
 
     session_conn: Option<Connection>,
     screensaver_proxy: Option<ScreenSaverProxyBlocking<'static>>,
@@ -50,9 +50,9 @@ pub struct Awake {
     sleep_fd: Option<zbus::zvariant::OwnedFd>,
 }
 
-impl Awake {
-    pub fn new(options: Builder) -> Result<Self> {
-        let mut awake = Awake {
+impl KeepAwake {
+    pub fn new(options: Options) -> Result<Self> {
+        let mut awake = Self {
             options,
 
             session_conn: None,
@@ -74,10 +74,12 @@ impl Awake {
             self.screensaver_proxy = Some(ScreenSaverProxyBlocking::new(
                 self.session_conn.as_ref().unwrap(),
             )?);
-            Some(self.screensaver_proxy.as_ref().unwrap().inhibit(
-                self.options.app_reverse_domain_or_default(),
-                self.options.reason_or_default(),
-            )?)
+            Some(
+                self.screensaver_proxy
+                    .as_ref()
+                    .unwrap()
+                    .inhibit(&self.options.app_reverse_domain, &self.options.reason)?,
+            )
         } else {
             None
         };
@@ -92,8 +94,8 @@ impl Awake {
         self.idle_fd = if self.options.idle {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "idle",
-                self.options.app_name_or_default(),
-                self.options.reason_or_default(),
+                &self.options.app_name,
+                &self.options.reason,
                 "block",
             )?)
         } else {
@@ -103,8 +105,8 @@ impl Awake {
         self.sleep_fd = if self.options.sleep {
             Some(self.manager_proxy.as_ref().unwrap().inhibit(
                 "sleep",
-                self.options.app_name_or_default(),
-                self.options.reason_or_default(),
+                &self.options.app_name,
+                &self.options.reason,
                 "block",
             )?)
         } else {
@@ -115,7 +117,7 @@ impl Awake {
     }
 }
 
-impl Drop for Awake {
+impl Drop for KeepAwake {
     fn drop(&mut self) {
         if self.options.display {
             if let (Some(p), Some(cookie)) = (self.screensaver_proxy.as_ref(), self.cookie) {
