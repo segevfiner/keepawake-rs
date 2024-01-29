@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Changed
-- *BREAKING!* Switched to `derive_builder` for the builder, and renamed `AwakeHandle` to `KeepAwake`.
+- **BREAKING** Switched to `derive_builder` for the builder (The builder is now created using `default()`).
+- **BREAKING** Renamed `AwakeHandle` to `KeepAwake`.
 - Made `winresource` to only be included in the `bin` feature.
 - Updated dependencies.
 
