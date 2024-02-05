@@ -3,7 +3,7 @@
 //! # Examples
 //!
 //! ```
-//! # fn try_main() -> anyhow::Result<()> {
+//! # fn try_main() -> Result<(), keepawake::Error> {
 //! let _awake = keepawake::Builder::default()
 //!     .display(true)
 //!     .reason("Video playback")
@@ -16,7 +16,7 @@
 //! ```
 //!
 //! ```
-//! # fn try_main() -> anyhow::Result<()> {
+//! # fn try_main() -> Result<(), keepawake::Error> {
 //! let _awake = keepawake::Builder::default()
 //!     .display(true)
 //!     .idle(true)
@@ -26,8 +26,6 @@
 //! # }
 //! # try_main();
 //! ```
-
-use std::error;
 
 use derive_builder::Builder;
 use thiserror::Error;
