@@ -1,3 +1,5 @@
+#![allow(clippy::missing_safety_doc)]
+
 use std::{
     ffi::{c_char, CStr},
     ptr,
@@ -8,7 +10,7 @@ use crate::{Builder, KeepAwake};
 /// Create a new [`KeepAwakeBuilder`].
 #[no_mangle]
 pub extern "C" fn keepawake_new() -> *mut Builder {
-    Box::into_raw(Box::new(Builder::default()))
+    Box::into_raw(Box::default())
 }
 
 /// Prevent the display from turning off.
