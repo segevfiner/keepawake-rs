@@ -32,7 +32,6 @@ use thiserror::Error;
 
 mod sys;
 
-
 #[cfg(feature = "capi")]
 pub mod capi;
 
