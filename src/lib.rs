@@ -38,7 +38,7 @@ pub mod capi;
 
 #[derive(Error, Debug)]
 pub enum Error {
-    #[error(transparent)]
+    #[error("builder: {0}")]
     Builder(#[from] BuilderError),
 
     #[error("system: {0}")]
