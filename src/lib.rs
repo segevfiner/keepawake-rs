@@ -69,6 +69,7 @@ struct Options {
 }
 
 impl Builder {
+    /// Create the [`KeepAwake`].
     pub fn create(&self) -> Result<KeepAwake> {
         Ok(KeepAwake {
             _imp: sys::KeepAwake::new(self.build()?)?,
