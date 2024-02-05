@@ -42,7 +42,7 @@ pub enum Error {
     Builder(#[from] BuilderError),
 
     #[error("system: {0}")]
-    System(#[from] Box<dyn error::Error + Send + Sync>),
+    System(#[from] sys::Error),
 }
 
 #[derive(Builder, Debug)]

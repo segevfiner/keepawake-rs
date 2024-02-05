@@ -13,6 +13,8 @@ use zbus::{blocking::Connection, dbus_proxy};
 
 use crate::Options;
 
+pub type Error = zbus::Error;
+
 #[dbus_proxy(
     interface = "org.freedesktop.login1.Manager",
     default_service = "org.freedesktop.login1",
@@ -52,7 +54,7 @@ pub struct KeepAwake {
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self, Box<dyn error::Error + Send + Sync>> {
+    pub fn new(options: Options) -> Result<Self, zbus::Error> {
         let mut awake = Self {
             options,
 

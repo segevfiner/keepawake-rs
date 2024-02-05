@@ -14,6 +14,8 @@ use core_foundation::{base::TCFType, string::CFString};
 
 use crate::Options;
 
+pub type Error = Box<dyn error::Error + Send + Sync>;
+
 #[allow(non_upper_case_globals)]
 const kIOPMAssertionTypePreventUserIdleSystemSleep: &str = "PreventUserIdleSystemSleep";
 
@@ -32,7 +34,7 @@ pub struct KeepAwake {
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self, Box<dyn error::Error + Send + Sync>> {
+    pub fn new(options: Options) -> Result<Self, Error> {
         let mut awake = Self {
             options,
             display_assertion: 0,
@@ -43,7 +45,7 @@ impl KeepAwake {
         Ok(awake)
     }
 
-    fn set(&mut self) -> Result<(), Box<dyn error::Error + Send + Sync>> {
+    fn set(&mut self) -> Result<(), Error> {
         if self.options.display {
             unsafe {
                 let result = IOPMAssertionCreateWithName(

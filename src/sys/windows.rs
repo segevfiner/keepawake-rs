@@ -17,13 +17,15 @@ use windows::Win32::System::Power::{
 
 use crate::Options;
 
+pub type Error = WindowsError;
+
 pub struct KeepAwake {
     options: Options,
     previous: EXECUTION_STATE,
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self, Box<dyn error::Error + Send + Sync>> {
+    pub fn new(options: Options) -> Result<Self, Error> {
         let mut awake = KeepAwake {
             options,
             previous: Default::default(),
@@ -32,7 +34,7 @@ impl KeepAwake {
         Ok(awake)
     }
 
-    fn set(&mut self) -> Result<(), WindowsError> {
+    fn set(&mut self) -> Result<(), Error> {
         let mut esflags = ES_CONTINUOUS;
 
         if self.options.display {
