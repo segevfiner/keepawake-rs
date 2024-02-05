@@ -34,6 +34,10 @@ use thiserror::Error;
 
 mod sys;
 
+
+#[cfg(feature = "capi")]
+pub mod capi;
+
 #[derive(Error, Debug)]
 pub enum Error {
     #[error(transparent)]
@@ -77,6 +81,7 @@ struct Options {
 }
 
 impl Builder {
+    /// Create the [`KeepAwake`].
     pub fn create(&self) -> Result<KeepAwake, Error> {
         Ok(KeepAwake {
             _imp: sys::KeepAwake::new(self.build()?)?,

@@ -1,0 +1,10 @@
+language = "C"
+include_guard = "KEEPAWAKE_H"
+cpp_compat = true
+
+after_includes = """
+
+typedef struct KeepAwakeBuilder KeepAwakeBuilder;"""
+
+[export.rename]
+Builder = "KeepAwakeBuilder"

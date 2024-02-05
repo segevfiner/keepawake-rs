@@ -21,6 +21,7 @@ bin = [
     "dep:sysinfo",
     "dep:winresource"
 ]
+capi = []
 
 [profile.release]
 strip = true
