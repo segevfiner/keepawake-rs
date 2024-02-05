@@ -13,6 +13,7 @@ exclude = ["/tools/"]
 
 [features]
 bin = ["dep:clap", "dep:clap_complete", "dep:ctrlc", "dep:shadow-rs", "dep:sysinfo", "dep:winresource"]
+capi = []
 
 [profile.release]
 strip = true
