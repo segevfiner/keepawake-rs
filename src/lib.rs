@@ -27,6 +27,8 @@
 //! # try_main();
 //! ```
 
+use std::error;
+
 use derive_builder::Builder;
 use thiserror::Error;
 
