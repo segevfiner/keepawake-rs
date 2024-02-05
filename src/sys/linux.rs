@@ -7,8 +7,6 @@
 //! [ScreenSaver]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
 //! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
-use std::error;
-
 use zbus::{blocking::Connection, dbus_proxy};
 
 use crate::Options;

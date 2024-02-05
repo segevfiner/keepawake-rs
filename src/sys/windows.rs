@@ -7,8 +7,6 @@
 //! [`SetThreadExecutionState`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate
 //! [`PowerSetRequest`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powersetrequest
 
-use std::error;
-
 use windows::core::Error as WindowsError;
 use windows::Win32::System::Power::{
     SetThreadExecutionState, ES_AWAYMODE_REQUIRED, ES_CONTINUOUS, ES_DISPLAY_REQUIRED,
