@@ -3,7 +3,7 @@
 //! # Examples
 //!
 //! ```
-//! # fn try_main() -> Result<(), keepawake::Error> {
+//! # fn try_main() -> keepawake::Result<()> {
 //! let _awake = keepawake::Builder::default()
 //!     .display(true)
 //!     .reason("Video playback")
@@ -16,7 +16,7 @@
 //! ```
 //!
 //! ```
-//! # fn try_main() -> Result<(), keepawake::Error> {
+//! # fn try_main() -> keepawake::Result<()> {
 //! let _awake = keepawake::Builder::default()
 //!     .display(true)
 //!     .idle(true)
@@ -35,14 +35,21 @@ mod sys;
 #[cfg(feature = "capi")]
 pub mod capi;
 
+/// A system error whose actual type varies by target.
+pub use sys::Error as SystemError;
+
+/// Error type.
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("builder: {0}")]
     Builder(#[from] BuilderError),
 
     #[error("system: {0}")]
-    System(#[from] sys::Error),
+    System(#[from] SystemError),
 }
+
+/// A specialized [`Result`](std::result::Result) type for this crate.
+pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 #[derive(Builder, Debug)]
 #[builder(public, name = "Builder", build_fn(private))]
@@ -79,7 +86,7 @@ struct Options {
 
 impl Builder {
     /// Create the [`KeepAwake`].
-    pub fn create(&self) -> Result<KeepAwake, Error> {
+    pub fn create(&self) -> Result<KeepAwake> {
         Ok(KeepAwake {
             _imp: sys::KeepAwake::new(self.build()?)?,
         })
