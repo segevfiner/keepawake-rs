@@ -23,7 +23,6 @@ jobs:
       uses: actions-rust-lang/setup-rust-toolchain@v1
     - name: Check formatting
       run: cargo fmt --check
-      continue-on-error: true
     - name: Check
       run: cargo clippy --verbose --locked --all-features
     - name: Run tests
