@@ -4,17 +4,22 @@
 //!
 //! [`IOPMAssertionCreateWithName`]: https://developer.apple.com/documentation/iokit/1557134-iopmassertioncreatewithname
 
-use std::error;
-
 use apple_sys::IOKit::{
     kIOPMAssertionLevelOn, kIOReturnSuccess, CFStringRef, IOPMAssertionCreateWithName,
     IOPMAssertionRelease,
 };
+use thiserror::Error;
 use core_foundation::{base::TCFType, string::CFString};
 
 use crate::Options;
 
-pub type Error = Box<dyn error::Error + Send + Sync>;
+#[derive(Error, Debug)]
+#[error("IO error: {code:#010x}")]
+pub struct IOError {
+    code: i32,
+}
+
+pub type Error = IOError;
 
 #[allow(non_upper_case_globals)]
 const kIOPMAssertionTypePreventUserIdleSystemSleep: &str = "PreventUserIdleSystemSleep";
@@ -57,8 +62,7 @@ impl KeepAwake {
                     &mut self.display_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    // TODO Better error?
-                    return Err(format!("IO error: {:#x}", result).into());
+                    return Err(Error { code: result });
                 }
             }
         }
@@ -73,7 +77,7 @@ impl KeepAwake {
                     &mut self.idle_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    return Err(format!("IO error: {:#x}", result).into());
+                    return Err(Error { code: result });
                 }
             }
         }
@@ -88,7 +92,7 @@ impl KeepAwake {
                     &mut self.sleep_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    return Err(format!("IO error: {:#x}", result).into());
+                    return Err(Error { code: result });
                 }
             }
         }
