@@ -4,7 +4,8 @@
 //!
 //! [`IOPMAssertionCreateWithName`]: https://developer.apple.com/documentation/iokit/1557134-iopmassertioncreatewithname
 
-use anyhow::{anyhow, Result};
+use std::error;
+
 use apple_sys::IOKit::{
     kIOPMAssertionLevelOn, kIOReturnSuccess, CFStringRef, IOPMAssertionCreateWithName,
     IOPMAssertionRelease,
@@ -12,6 +13,8 @@ use apple_sys::IOKit::{
 use core_foundation::{base::TCFType, string::CFString};
 
 use crate::Options;
+
+pub type Error = Box<dyn error::Error + Send + Sync>;
 
 #[allow(non_upper_case_globals)]
 const kIOPMAssertionTypePreventUserIdleSystemSleep: &str = "PreventUserIdleSystemSleep";
@@ -31,7 +34,7 @@ pub struct KeepAwake {
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self> {
+    pub fn new(options: Options) -> Result<Self, Error> {
         let mut awake = Self {
             options,
             display_assertion: 0,
@@ -42,7 +45,7 @@ impl KeepAwake {
         Ok(awake)
     }
 
-    fn set(&mut self) -> Result<()> {
+    fn set(&mut self) -> Result<(), Error> {
         if self.options.display {
             unsafe {
                 let result = IOPMAssertionCreateWithName(
@@ -55,7 +58,7 @@ impl KeepAwake {
                 );
                 if result != kIOReturnSuccess as i32 {
                     // TODO Better error?
-                    return Err(anyhow!("IO error: {:#x}", result));
+                    return Err(format!("IO error: {:#x}", result).into());
                 }
             }
         }
@@ -70,7 +73,7 @@ impl KeepAwake {
                     &mut self.idle_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    return Err(anyhow!("IO error: {:#x}", result));
+                    return Err(format!("IO error: {:#x}", result).into());
                 }
             }
         }
@@ -85,7 +88,7 @@ impl KeepAwake {
                     &mut self.sleep_assertion,
                 );
                 if result != kIOReturnSuccess as i32 {
-                    return Err(anyhow!("IO error: {:#x}", result));
+                    return Err(format!("IO error: {:#x}", result).into());
                 }
             }
         }

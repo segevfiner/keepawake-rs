@@ -12,7 +12,15 @@ categories = ["command-line-utilities"]
 exclude = ["/tools/"]
 
 [features]
-bin = ["dep:clap", "dep:clap_complete", "dep:ctrlc", "dep:shadow-rs", "dep:sysinfo", "dep:winresource"]
+bin = [
+    "dep:anyhow",
+    "dep:clap",
+    "dep:clap_complete",
+    "dep:ctrlc",
+    "dep:shadow-rs",
+    "dep:sysinfo",
+    "dep:winresource"
+]
 capi = []
 
 [profile.release]
@@ -24,7 +32,7 @@ name = "keepawake"
 required-features = ["bin"]
 
 [dependencies]
-anyhow = "1.0.65"
+anyhow = { version = "1.0.65", optional = true }
 cfg-if = "1.0.0"
 clap = { version = "4.0.2", features = ["derive"], optional = true }
 clap_complete = { version = "4.0.2", optional = true }
@@ -32,6 +40,7 @@ ctrlc = { version = "3.2.3", features = ["termination"], optional = true }
 derive_builder = "0.12.0"
 shadow-rs = { version = "0.26.1", optional = true }
 sysinfo = { version = "0.30.5", optional = true }
+thiserror = "1.0.56"
 
 [target.'cfg(windows)'.dependencies.windows]
 version = "0.52.0"

@@ -7,7 +7,6 @@
 //! [`SetThreadExecutionState`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate
 //! [`PowerSetRequest`]: https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-powersetrequest
 
-use anyhow::Result;
 use windows::core::Error as WindowsError;
 use windows::Win32::System::Power::{
     SetThreadExecutionState, ES_AWAYMODE_REQUIRED, ES_CONTINUOUS, ES_DISPLAY_REQUIRED,
@@ -16,13 +15,15 @@ use windows::Win32::System::Power::{
 
 use crate::Options;
 
+pub type Error = WindowsError;
+
 pub struct KeepAwake {
     options: Options,
     previous: EXECUTION_STATE,
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self> {
+    pub fn new(options: Options) -> Result<Self, Error> {
         let mut awake = KeepAwake {
             options,
             previous: Default::default(),
@@ -31,7 +32,7 @@ impl KeepAwake {
         Ok(awake)
     }
 
-    fn set(&mut self) -> Result<(), WindowsError> {
+    fn set(&mut self) -> Result<(), Error> {
         let mut esflags = ES_CONTINUOUS;
 
         if self.options.display {

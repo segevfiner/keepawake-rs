@@ -7,10 +7,11 @@
 //! [ScreenSaver]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
 //! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
-use anyhow::Result;
 use zbus::{blocking::Connection, dbus_proxy};
 
 use crate::Options;
+
+pub type Error = zbus::Error;
 
 #[dbus_proxy(
     interface = "org.freedesktop.login1.Manager",
@@ -51,7 +52,7 @@ pub struct KeepAwake {
 }
 
 impl KeepAwake {
-    pub fn new(options: Options) -> Result<Self> {
+    pub fn new(options: Options) -> Result<Self, zbus::Error> {
         let mut awake = Self {
             options,
 

@@ -1063,6 +1063,7 @@ dependencies = [
  "derive_builder",
  "shadow-rs",
  "sysinfo",
+ "thiserror",
  "windows",
  "winresource",
  "zbus",

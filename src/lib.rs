@@ -3,7 +3,7 @@
 //! # Examples
 //!
 //! ```
-//! # fn try_main() -> anyhow::Result<()> {
+//! # fn try_main() -> keepawake::Result<()> {
 //! let _awake = keepawake::Builder::default()
 //!     .display(true)
 //!     .reason("Video playback")
@@ -16,7 +16,7 @@
 //! ```
 //!
 //! ```
-//! # fn try_main() -> anyhow::Result<()> {
+//! # fn try_main() -> keepawake::Result<()> {
 //! let _awake = keepawake::Builder::default()
 //!     .display(true)
 //!     .idle(true)
@@ -27,13 +27,29 @@
 //! # try_main();
 //! ```
 
-use anyhow::Result;
 use derive_builder::Builder;
+use thiserror::Error;
 
 mod sys;
 
 #[cfg(feature = "capi")]
 pub mod capi;
+
+/// A system error whose actual type varies by target.
+pub use sys::Error as SystemError;
+
+/// Error type.
+#[derive(Error, Debug)]
+pub enum Error {
+    #[error("builder: {0}")]
+    Builder(#[from] BuilderError),
+
+    #[error("system: {0}")]
+    System(#[from] SystemError),
+}
+
+/// A specialized [`Result`](std::result::Result) type for this crate.
+pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 #[derive(Builder, Debug)]
 #[builder(public, name = "Builder", build_fn(private))]
