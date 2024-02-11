@@ -41,6 +41,7 @@ jobs:
         run: cargo build --verbose --locked -F bin --release --target ${{ matrix.target }}
 
       - name: Package
+        id: package
         shell: bash
         run: |
           shopt -s extglob
@@ -51,16 +52,16 @@ jobs:
           cp README.md CHANGELOG.md LICENSE $staging/
 
           tar zcf $staging.tar.gz $staging
-          echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+          echo "ASSET=$staging.tar.gz" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v3
         with:
           name: release
-          path: ${{ env.ASSET }}
+          path: ${{ steps.package.outputs.ASSET }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           draft: true
-          files: ${{ env.ASSET }}
+          files: ${{ steps.package.outputs.ASSET }}
