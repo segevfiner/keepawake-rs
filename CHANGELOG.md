@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **BREAKING** Switched to `derive_builder` for the builder (The builder is now created using `default()`).
 - **BREAKING** Renamed `AwakeHandle` to `KeepAwake`.
+- **BREAKING** New custom `Error` type instead of using `anyhow` for the library.
 - Made `winresource` to only be included in the `bin` feature.
 - Updated dependencies.
 
