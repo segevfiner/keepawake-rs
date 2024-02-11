@@ -8,8 +8,8 @@ use apple_sys::IOKit::{
     kIOPMAssertionLevelOn, kIOReturnSuccess, CFStringRef, IOPMAssertionCreateWithName,
     IOPMAssertionRelease,
 };
-use thiserror::Error;
 use core_foundation::{base::TCFType, string::CFString};
+use thiserror::Error;
 
 use crate::Options;
 
