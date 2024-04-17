@@ -56,7 +56,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: release
+          name: release-${{ matrix.os }}
           path: ${{ steps.package.outputs.ASSET }}
 
       - name: Release
@@ -65,3 +65,13 @@ jobs:
         with:
           draft: true
           files: ${{ steps.package.outputs.ASSET }}
+
+  merge:
+    runs-on: ubuntu-22.04
+    needs: release
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: release
+          pattern: release-*
