@@ -7,13 +7,13 @@
 //! [ScreenSaver]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
 //! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
-use zbus::{blocking::Connection, dbus_proxy};
+use zbus::{blocking::Connection, proxy};
 
 use crate::Options;
 
 pub type Error = zbus::Error;
 
-#[dbus_proxy(
+#[proxy(
     interface = "org.freedesktop.login1.Manager",
     default_service = "org.freedesktop.login1",
     default_path = "/org/freedesktop/login1"
@@ -29,7 +29,7 @@ trait Manager {
     ) -> zbus::Result<zbus::zvariant::OwnedFd>;
 }
 
-#[dbus_proxy(assume_defaults = true)]
+#[proxy(assume_defaults = true)]
 trait ScreenSaver {
     /// Inhibit method
     fn inhibit(&self, application_name: &str, reason_for_inhibit: &str) -> zbus::Result<u32>;
