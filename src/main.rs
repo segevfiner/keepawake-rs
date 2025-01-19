@@ -75,7 +75,11 @@ fn main() -> Result<()> {
         } else if let Some(pid) = cli.wait {
             let pid = Pid::from_u32(pid);
             let mut system = System::new();
-            system.refresh_processes_specifics(ProcessesToUpdate::Some(&[pid]), true, ProcessRefreshKind::nothing());
+            system.refresh_processes_specifics(
+                ProcessesToUpdate::Some(&[pid]),
+                true,
+                ProcessRefreshKind::nothing(),
+            );
 
             if let Some(process) = system.process(pid) {
                 process.wait();
