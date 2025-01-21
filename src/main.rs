@@ -2,15 +2,13 @@ use std::{
     io,
     process::{self, Command},
     sync::mpsc::channel,
-    thread,
-    time::Duration,
 };
 
 use anyhow::Result;
 use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::{generate, Shell};
 use shadow_rs::shadow;
-use sysinfo::{Pid, ProcessRefreshKind, System};
+use sysinfo::{Pid, ProcessRefreshKind, ProcessesToUpdate, System};
 
 use keepawake::Builder;
 
@@ -77,13 +75,17 @@ fn main() -> Result<()> {
         } else if let Some(pid) = cli.wait {
             let pid = Pid::from_u32(pid);
             let mut system = System::new();
+            system.refresh_processes_specifics(
+                ProcessesToUpdate::Some(&[pid]),
+                true,
+                ProcessRefreshKind::nothing(),
+            );
 
-            loop {
-                if !system.refresh_process_specifics(pid, ProcessRefreshKind::new()) {
-                    break 0;
-                }
-                thread::sleep(Duration::from_millis(200));
+            if let Some(process) = system.process(pid) {
+                process.wait();
             }
+
+            0
         } else {
             rx.recv().expect("Could not receive from channel.");
             130
