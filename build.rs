@@ -3,6 +3,7 @@ use std::env;
 use std::error::Error;
 
 #[allow(unused_imports)]
+#[cfg(feature = "bin")]
 use shadow_rs::ShadowBuilder;
 
 fn main() -> Result<(), Box<dyn Error>> {
