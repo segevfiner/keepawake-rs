@@ -1,0 +1,16 @@
+[package]
+name = "keepawake-android"
+version = "0.1.0"
+authors.workspace = true
+edition.workspace = true
+repository.workspace = true
+license.workspace = true
+keywords.workspace = true
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+jni = { workspace = true }
+keepawake = { workspace = true, features = ["capi"] }

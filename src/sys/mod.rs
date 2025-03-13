@@ -10,6 +10,9 @@ cfg_if! {
     } else if #[cfg(target_os = "macos")] {
         mod macos;
         pub use self::macos::*;
+    } else if #[cfg(target_os = "android")] {
+        mod android;
+        pub use self::android::*;
     } else {
         compile_error!("Unsupported cfg");
     }
