@@ -24,8 +24,10 @@ bin = [
 capi = []
 
 [profile.release]
-strip = true
 lto = "thin"
+strip = true
+debug = true
+split-debuginfo = "packed"
 
 [[bin]]
 name = "keepawake"
