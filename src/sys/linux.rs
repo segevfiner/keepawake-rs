@@ -4,8 +4,8 @@
 //!
 //! Debug with `systemd-inhibit --list`, `gnome-session-inhibit --list`.
 //!
-//! [ScreenSaver]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
-//! [systemd Inhibitor Locks]:(https://www.freedesktop.org/wiki/Software/systemd/inhibit/
+//! [`org.freedesktop.ScreenSaver`]: https://people.freedesktop.org/~hadess/idle-inhibition-spec/re01.html
+//! [systemd Inhibitor Locks]: https://www.freedesktop.org/wiki/Software/systemd/inhibit/
 
 use zbus::{blocking::Connection, proxy};
 

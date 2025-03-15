@@ -26,7 +26,7 @@ struct Cli {
     #[arg(short, long)]
     idle: bool,
 
-    /// Keep system from sleeping (Functionality and conditions for this to work vary by OS)
+    /// Keep system from explicitly sleeping (Functionality and conditions for this to work vary by OS)
     #[arg(short, long)]
     sleep: bool,
 

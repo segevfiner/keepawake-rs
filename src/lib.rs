@@ -63,7 +63,7 @@ struct Options {
     #[builder(default)]
     idle: bool,
 
-    /// Prevent the system from sleeping. Only works under certain, OS dependant, conditions.
+    /// Prevent the system from explicitly sleeping. Only works under certain, OS dependant, conditions.
     #[builder(default)]
     sleep: bool,
 
