@@ -14,21 +14,16 @@ jobs:
         include:
         - os: windows-2022
           target: x86_64-pc-windows-msvc
-          install: false
         - os: windows-2022
           target: aarch64-pc-windows-msvc
-          install: true
         - os: ubuntu-22.04
           target: x86_64-unknown-linux-musl
-          install: true
         - os: ubuntu-22.04-arm
           target: aarch64-unknown-linux-musl
-          install: true
         - os: macos-13
           target: x86_64-apple-darwin
         - os: macos-13
           target: aarch64-apple-darwin
-          install: true
 
     runs-on: ${{ matrix.os }}
 
@@ -37,13 +32,11 @@ jobs:
 
       - name: Setup Rust Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
-
-      - name: Install target
-        if: matrix.install
-        run: rustup target add ${{ matrix.target }}
+        with:
+          target: ${{ matrix.target }}
 
       - name: Install musl-tools
-        if: matrix.target == 'x86_64-unknown-linux-musl'
+        if: matrix.target == 'x86_64-unknown-linux-musl' || matrix.target == 'aarch64-unknown-linux-musl'
         run: sudo apt-get update && sudo apt-get install musl-tools
 
       - name: Build
