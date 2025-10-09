@@ -50,7 +50,7 @@ impl KeepAwake {
         unsafe {
             self.previous = SetThreadExecutionState(esflags);
             if self.previous == EXECUTION_STATE(0) {
-                return Err(WindowsError::from_win32());
+                return Err(WindowsError::from_thread());
             }
 
             Ok(())
