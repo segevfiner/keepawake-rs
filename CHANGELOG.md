@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.6.0 - 2025-10-10
+### Changed
+- Replaced apple-sys by objc2 (Thanks to @brian-contio-ai in [#32](https://github.com/segevfiner/keepawake-rs/pull/32))
+- Updated dependencies
+
 ## v0.5.1 - 2024-02-11
 ### Changed
 - Updated dependencies.
