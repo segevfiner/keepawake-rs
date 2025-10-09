@@ -14,24 +14,33 @@ jobs:
         include:
         - os: windows-2022
           target: x86_64-pc-windows-msvc
+          install: false
+        - os: windows-2022
+          target: aarch64-pc-windows-msvc
+          install: true
         - os: ubuntu-22.04
           target: x86_64-unknown-linux-musl
-        - os: macos-12
+          install: true
+        - os: ubuntu-22.04-arm
+          target: aarch64-unknown-linux-musl
+          install: true
+        - os: macos-13
           target: x86_64-apple-darwin
-        - os: macos-12
+        - os: macos-13
           target: aarch64-apple-darwin
+          install: true
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Rust Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Install target
+        if: matrix.install
         run: rustup target add ${{ matrix.target }}
-        if: contains(fromJSON('["x86_64-unknown-linux-musl", "aarch64-apple-darwin"]'), matrix.target)
 
       - name: Install musl-tools
         if: matrix.target == 'x86_64-unknown-linux-musl'
@@ -54,7 +63,7 @@ jobs:
           tar zcf $staging.tar.gz $staging
           echo "ASSET=$staging.tar.gz" >> $GITHUB_OUTPUT
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.os }}
           path: ${{ steps.package.outputs.ASSET }}
