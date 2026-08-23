@@ -51,7 +51,7 @@ jobs:
           mkdir $staging
 
           ls -R target/${{ matrix.target }}/release/
-          cp target/${{ matrix.target }}/release/keepawake@(|.exe) $staging/
+          cp -r target/${{ matrix.target }}/release/keepawake@(|.exe|.pdb|.dSYM|.dwp|.debug) $staging/
           cp README.md CHANGELOG.md LICENSE $staging/
 
           tar zcf $staging.tar.gz $staging
