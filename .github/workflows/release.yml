@@ -47,7 +47,8 @@ jobs:
         shell: bash
         run: |
           shopt -s extglob
-          staging="keepawake-${{ github.head_ref || github.ref_name }}-${{ matrix.target }}"
+          ref="${{ github.head_ref || github.ref_name }}"
+          staging="keepawake-${ref//\//-}-${{ matrix.target }}"
           mkdir $staging
 
           ls -R target/${{ matrix.target }}/release/
